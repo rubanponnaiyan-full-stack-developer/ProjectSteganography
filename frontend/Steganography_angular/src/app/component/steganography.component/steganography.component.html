@@ -1,0 +1,13 @@
+<div class="container">
+<h2>Image Steganography</h2>
+<input type="file" accept="image/png" (change)="onfileselected($event)">
+<br><br>
+<input type="text" placeholder="Enter secret text" [(ngModel)]="secretText">
+<br><br>
+<button (click)="encrypt()">Encrypt</button>
+<button (click)="decrypt()">Decrypt</button>
+<br><br>
+<div *ngIf="loading">Processing...</div>
+<input type="text" placeholder="Decrypted text will appear here" [value]="result" readonly>
+<br><br>
+</div>

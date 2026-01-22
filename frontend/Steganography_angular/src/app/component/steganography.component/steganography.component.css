@@ -1,0 +1,23 @@
+.container {
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    height: 400px;;
+}
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: brown;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+    font-size: 24px;
+}
+
