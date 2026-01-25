@@ -6,7 +6,8 @@ backend/.classpath
 backend/.project
 backend/.settings/
 
-# Frontend (Angular)
+# Ignore accidental Git/Vim files
+frontend/**/Git/
 frontend/**/node_modules/
 frontend/**/dist/
 frontend/**/.angular/

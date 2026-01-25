@@ -1,4 +1,4 @@
-" nohlsearch.vim: Auto turn off hlsearch
+git add .gitignore" nohlsearch.vim: Auto turn off hlsearch
 " Last Change: 2025-03-08
 " Maintainer: Maxim Kim <habamax@gmail.com>
 "
