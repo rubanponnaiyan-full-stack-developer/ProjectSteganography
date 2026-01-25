@@ -7,7 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,12 +19,11 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200")
 public class SteganographyController {
 
-
     @Autowired
     private SteganographyService service;
 
-
-    @PostMapping(value = "/encrypt", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    // ================= ENCRYPT (JSON RESPONSE) =================
+    @PostMapping(value = "/encrypt", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> encrypt(
             @RequestParam("text") String text,
             @RequestParam("image") MultipartFile image) {
@@ -45,7 +47,7 @@ public class SteganographyController {
             image.transferTo(input);
 
             File output = File.createTempFile("encrypted-", ".png");
-            service.encrypt(text, input, output);
+            service.encryptAndReturnFile(text, input, output);
 
             service.saveToDB(text, image.getOriginalFilename());
 
@@ -63,10 +65,39 @@ public class SteganographyController {
         }
     }
 
+    // ================= 🔽 ENCRYPT + DOWNLOAD =================
+    @PostMapping(
+            value = "/encrypt-download",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
+    )
+    public ResponseEntity<byte[]> encryptAndDownload(
+            @RequestParam("text") String text,
+            @RequestParam("image") MultipartFile image) {
 
+        try {
+            File input = File.createTempFile("input-", ".png");
+            image.transferTo(input);
 
+            File output = File.createTempFile("encrypted-", ".png");
+            service.encryptAndReturnFile(text, input, output);
 
-    @PostMapping(value = "/decrypt", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+            byte[] fileBytes = Files.readAllBytes(output.toPath());
+
+            return ResponseEntity.ok()
+                    .header("Content-Disposition",
+                            "attachment; filename=encrypted-image.png")
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(fileBytes);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // ================= DECRYPT =================
+    @PostMapping(value = "/decrypt", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> decrypt(
             @RequestParam("image") MultipartFile image) {
 
@@ -75,10 +106,20 @@ public class SteganographyController {
                 return ResponseEntity.badRequest().body("Image is required");
             }
 
+            BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
+            if (bufferedImage == null) {
+                return ResponseEntity.badRequest().body("invalid this file");
+            }
+
             File input = File.createTempFile("encrypted-", ".png");
             image.transferTo(input);
 
-            String secret = service.decrypt(input);
+            String secret;
+            try {
+                secret = service.decrypt(input);
+            } finally {
+                input.delete(); // cleanup
+            }
             return ResponseEntity.ok(secret);
 
         } catch (Exception e) {
@@ -88,14 +129,12 @@ public class SteganographyController {
         }
     }
 
-
+    // ================= TEST APIs =================
     @PostMapping(value = "/upload-test", consumes = "multipart/form-data")
-    public String uploadTest(@RequestParam ("image") MultipartFile image,
+    public String uploadTest(@RequestParam("image") MultipartFile image,
                              @RequestParam("secretText") String secretText) {
-        if (image.isEmpty()) {
-            return "Image is empty";
-        }
-        return "Uploaded:"+ image.getOriginalFilename()
+        if (image.isEmpty()) return "Image is empty";
+        return "Uploaded: " + image.getOriginalFilename()
                 + " | Secret: " + secretText;
     }
 

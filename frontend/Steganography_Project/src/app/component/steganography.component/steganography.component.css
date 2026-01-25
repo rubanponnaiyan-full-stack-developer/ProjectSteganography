@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2f3, #dfe9f3);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card styling */
+.card {
+  max-width: 520px;
+  margin: auto;
+  border-radius: 15px;
+  border: none;
+}
+
+/* Title */
+h2 {
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* Labels */
+.form-label {
+  font-weight: 600;
+  color: #34495e;
+}
+
+/* Input fields */
+.form-control {
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 600;
+}
+
+.btn-success {
+  background-color: #198754;
+}
+
+.btn-warning {
+  color: #000;
+}
+
+/* Processing alert */
+.alert-info {
+  text-align: center;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* Download button */
+.text-center .btn-primary {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+}
+
+/* Mobile responsive */
+@media (max-width: 576px) {
+  .card {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+}

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Steganography_angular": {
+    "Steganography_Project": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Steganography_angular:build:production"
+              "buildTarget": "Steganography_Project:build:production"
             },
             "development": {
-              "buildTarget": "Steganography_angular:build:development"
+              "buildTarget": "Steganography_Project:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,6 +92,6 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": "4cd67e94-0052-49a5-8fcf-9815d495aa2d"
   }
 }

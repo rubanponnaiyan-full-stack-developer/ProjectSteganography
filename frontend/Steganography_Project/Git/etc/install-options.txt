@@ -1,10 +1,10 @@
-Editor Option: VisualStudioCode
+Editor Option: VIM
 Custom Editor Path: 
-Default Branch Option: main
+Default Branch Option:  
 Path Option: Cmd
 SSH Option: OpenSSH
 Tortoise Option: false
-CURL Option: OpenSSL
+CURL Option: WinSSL
 CRLF Option: CRLFAlways
 Bash Terminal Option: MinTTY
 Git Pull Behavior Option: Merge

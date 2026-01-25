@@ -6,8 +6,7 @@
 	process = git-lfs filter-process
 	required = true
 [http]
-	sslBackend = openssl
-	sslCAInfo = C:/ProjectSteganography/frontend/steganography_angular/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+	sslBackend = schannel
 [core]
 	autocrlf = true
 	fscache = true
@@ -19,4 +18,4 @@
 [credential "https://dev.azure.com"]
 	useHttpPath = true
 [init]
-	defaultBranch = main
+	defaultBranch = master

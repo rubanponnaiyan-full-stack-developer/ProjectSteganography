@@ -1,0 +1,75 @@
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">Steganography</h2>
+
+    <!-- File Upload -->
+    <div class="mb-3">
+      <label class="form-label">Choose Image</label>
+      <input
+        type="file"
+        class="form-control"
+        accept="image/png"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+
+    <!-- Secret Text -->
+    <div class="mb-3">
+      <label class="form-label">Secret Text</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter secret text"
+        [(ngModel)]="secretText"
+      />
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex gap-2 mb-3">
+      <button class="btn btn-success" (click)="encrypt()">Encrypt</button>
+      <button class="btn btn-warning" (click)="decrypt()">Decrypt</button>
+    </div>
+
+    <!-- Processing -->
+    <div *ngIf="loading" class="alert alert-info">
+      Processing...
+    </div>
+
+    <!-- Result -->
+    <div class="mb-3">
+      <label class="form-label">Decrypted Text</label>
+      <input
+        type="text"
+        class="form-control"
+        [value]="result"
+        readonly
+      />
+    </div>
+
+    <!-- Download Buttons -->
+<div class="text-center mt-3 d-flex justify-content-center gap-2">
+
+  <!-- Encrypted Image Download -->
+  <a
+    *ngIf="downloadUrl"
+    class="btn btn-primary"
+    [href]="downloadUrl"
+    download="encrypted-image.png"
+  >
+    Download Encrypted Image
+  </a>
+
+  <!-- Decrypted Text Download -->
+  <a
+    *ngIf="decryptedTextDownloadUrl"
+    class="btn btn-secondary"
+    [href]="decryptedTextDownloadUrl"
+    download="decrypted-text.txt"
+  >
+    Download Decrypted Text
+  </a>
+
+</div>
+  </div>
+</div>
+

@@ -2,31 +2,22 @@ package com.projectsteganography.Steganography_Project.service;
 
 import com.projectsteganography.Steganography_Project.entity.SteganographyModel;
 import com.projectsteganography.Steganography_Project.repository.SteganographyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+
 @Service
 public class SteganographyService {
+
+    private final SteganographyRepository repository;
 
     public SteganographyService(SteganographyRepository repository) {
         this.repository = repository;
     }
 
-    public String encrypt(String text) {
-        return "Encrypted: " + text;
-    }
 
-    public String decrypt(String text) {
-        return "Decrypted: " + text;
-    }
-
-    @Autowired
-
-    private final SteganographyRepository repository;
-
-    public void encrypt(String text, File input, File output) throws Exception {
+    public File encryptAndReturnFile(String text, File input, File output) throws Exception {
 
         BufferedImage image = ImageIO.read(input);
 
@@ -43,7 +34,10 @@ public class SteganographyService {
                 }
             }
         }
+        File out = File.createTempFile("encrypted-",".png");
         ImageIO.write(image, "png", output);
+
+        return output;
     }
 
     public String decrypt(File imageFile) throws Exception {
@@ -69,4 +63,6 @@ public class SteganographyService {
         repository.save(model);
     }
 
+    public void encrypt(String text, File input, File output) {
+    }
 }
