@@ -1,20 +1,29 @@
-version: "3.8"
+
 
 services:
-  mysql:
-    image: mysql:8.0
+  mysql-db:
+    image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: steganography_db
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: steganography
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql
 
-  backend:
-    image: steganography-app
+  steganography-app:
+    build:
+      context: ./backend/Steganography_Project
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      - mysql-db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/steganography_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/steganography?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+volumes:
+  db-data:
+
